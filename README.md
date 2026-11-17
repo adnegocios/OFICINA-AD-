@@ -1,9 +1,17 @@
 # Oficina Virtual AD-NEGOCIOS
 
-Vista en pixel art de la oficina virtual de AD-NEGOCIOS (Jack G, Tony A, July R, Beto I, Martha T y Sandy C).
+Enlace: https://adnegocios.github.io/OFICINA-AD-/
 
-- Abriendo `index.html` sin el servidor se ve solo la oficina, en **vista sin conexion**: los botones estan desactivados.
-- Para trabajar, la oficina se abre en la PC con el servidor local encendido (`node oficina/server.js`) en `http://127.0.0.1:4173`.
-  El codigo del servidor vive en el repositorio privado del equipo.
+La pagina trabaja con la oficina encendida en **tu PC**: el navegador del SRI, la carpeta de SharePoint y los agentes estan en cada computadora.
 
-Todo se dibuja con canvas; no usa imagenes ni librerias externas.
+## Para trabajar desde el enlace
+1. En tu PC, ten instalado el proyecto `oficina-ad-negocios` (repositorio privado del equipo), Node, Claude Code con sesion iniciada y `config/rutas.json` con tus carpetas.
+2. Enciende la oficina y deja la ventana abierta:
+   `node C:\Users\<tu usuario>\oficina-ad-negocios\oficina\server.js`
+3. Abre el enlace. Si el navegador pregunta por acceso a la red local, pulsa **Permitir**.
+
+Si la oficina no esta encendida, la pagina lo avisa y muestra un boton **Reintentar**.
+
+## Seguridad
+- La pagina solo habla con la oficina de tu propia PC (127.0.0.1); no envia nada a internet.
+- Las credenciales del SRI **no** se llenan desde este enlace: solo desde http://127.0.0.1:4173 en tu PC, o escribiendolas en la ventana del SRI.

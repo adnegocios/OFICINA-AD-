@@ -779,6 +779,9 @@ function pintarTablero() {
 }
 
 // ================= Conexion con el servidor =================
+// Abierta en esta PC (127.0.0.1) usa su propio servidor; abierta desde GitHub Pages usa la oficina encendida en la PC.
+const LOCAL = ['127.0.0.1', 'localhost'].includes(location.hostname);
+const API = LOCAL ? '' : 'http://127.0.0.1:4173';
 const L = document.getElementById('log');
 function pon(s) { L.textContent += s; if (L.textContent.length > 30000) L.textContent = L.textContent.slice(-30000); L.scrollTop = L.scrollHeight; }
 
@@ -786,7 +789,7 @@ async function accion(nombreAccion, extra = {}) {
   const cliente = document.getElementById('cli').value.trim();
   const carpeta = document.getElementById('carpeta').value.trim();
   try {
-    const res = await fetch('/api/accion', { method: 'POST', headers: { 'x-oficina': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: nombreAccion, cliente, carpeta, ...extra }) });
+    const res = await fetch(API + '/api/accion', { method: 'POST', headers: { 'x-oficina': '1', 'Content-Type': 'application/json' }, body: JSON.stringify({ accion: nombreAccion, cliente, carpeta, ...extra }) });
     if (!res.ok) alert(await res.text());
   } catch (_) { alert('No hay conexion con la oficina. Esta corriendo node oficina/server.js?'); }
 }
@@ -809,7 +812,7 @@ document.getElementById('form-cred').addEventListener('submit', async (ev) => {
   let cuerpo = JSON.stringify({ accion: 'llenar-credenciales', ruc: campos[0].value.trim(), ci: campos[1].value.trim(), clave: campos[2].value });
   campos.forEach((c) => { c.value = ''; });
   try {
-    const res = await fetch('/api/accion', { method: 'POST', headers: { 'x-oficina': '1', 'Content-Type': 'application/json' }, body: cuerpo });
+    const res = await fetch(API + '/api/accion', { method: 'POST', headers: { 'x-oficina': '1', 'Content-Type': 'application/json' }, body: cuerpo });
     cuerpo = null;
     if (!res.ok) alert(await res.text());
   } catch (_) { cuerpo = null; alert('No hay conexion con la oficina.'); }
@@ -842,15 +845,21 @@ function modoSinConexion() {
   pintarTablero();
   const aviso = document.getElementById('aviso');
   aviso.style.display = 'block';
-  aviso.textContent = 'Vista sin conexion: aqui solo se ve la oficina. Para trabajar, abre http://127.0.0.1:4173 en tu PC con node oficina/server.js encendido.';
+  aviso.innerHTML = '<b>No encuentro la oficina encendida en esta PC.</b><br>' +
+    '1. Abre PowerShell y escribe: <code>node C:\\Users\\&lt;tu usuario&gt;\\oficina-ad-negocios\\oficina\\server.js</code><br>' +
+    '2. Deja esa ventana abierta y pulsa Reintentar. Si el navegador pregunta por acceso a la red local, pulsa Permitir.' +
+    '<button type="button" id="reintentar-conexion">Reintentar</button>';
+  document.getElementById('reintentar-conexion').addEventListener('click', () => location.reload());
   dibujar();
 }
 
 async function iniciar() {
-  try { AG = await (await fetch('/api/agentes')).json(); }
+  try { AG = await (await fetch(API + '/api/agentes')).json(); }
   catch (_) { return modoSinConexion(); }
   if (!Array.isArray(AG)) return modoSinConexion();
-  const es = new EventSource('/api/eventos');
+  // Desde GitHub Pages no se llenan credenciales (solo en http://127.0.0.1:4173).
+  if (!LOCAL) { const cred = document.getElementById('credenciales'); if (cred) cred.style.display = 'none'; }
+  const es = new EventSource(API + '/api/eventos');
   es.onmessage = (ev) => {
     const m = JSON.parse(ev.data);
     if (m.tipo === 'estado') { E = m.estado; desfase = E.ahora - Date.now(); pintarTablero(); }
