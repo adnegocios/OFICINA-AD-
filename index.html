@@ -846,8 +846,10 @@ function modoSinConexion() {
   const aviso = document.getElementById('aviso');
   aviso.style.display = 'block';
   aviso.innerHTML = '<b>No encuentro la oficina encendida en esta PC.</b><br>' +
-    '1. Abre PowerShell y escribe: <code>node C:\\Users\\&lt;tu usuario&gt;\\oficina-ad-negocios\\oficina\\server.js</code><br>' +
-    '2. Deja esa ventana abierta y pulsa Reintentar. Si el navegador pregunta por acceso a la red local, pulsa Permitir.' +
+    '<b>Ya la instalaste:</b> abre el acceso directo "Oficina AD-NEGOCIOS" del escritorio, deja esa ventana abierta y pulsa Reintentar.' +
+    ' Si el navegador pregunta por acceso a la red local, pulsa Permitir.<br>' +
+    '<b>Primera vez en esta PC:</b> <a href="https://adnegocios.github.io/OFICINA-AD-/instalar-oficina.cmd" download style="color:var(--oro)">descarga el instalador</a>' +
+    ' y abrelo con doble clic (si Windows avisa, "Mas informacion" y "Ejecutar de todas formas").' +
     '<button type="button" id="reintentar-conexion">Reintentar</button>';
   document.getElementById('reintentar-conexion').addEventListener('click', () => location.reload());
   dibujar();
