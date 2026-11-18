@@ -2,7 +2,7 @@
 
 Enlace: https://adnegocios.github.io/OFICINA-AD-/
 
-La pagina trabaja con la oficina encendida en **tu PC**: el navegador del SRI, la carpeta de SharePoint y los agentes estan en cada computadora.
+El enlace es la puerta de entrada: te lleva a la oficina de **tu PC** (http://127.0.0.1:4173), donde estan el navegador del SRI, la carpeta de SharePoint y los agentes. No hace falta dar permisos al navegador.
 
 ## Primera vez en una PC
 1. Necesitas: acceso al repositorio privado `adnegocios/oficina-ad-negocios`, [Git](https://git-scm.com/download/win), [Node.js LTS](https://nodejs.org) y la biblioteca de SharePoint "Tributacion, Contabilidad y Finanzas" sincronizada en OneDrive.
@@ -12,7 +12,6 @@ La pagina trabaja con la oficina encendida en **tu PC**: el navegador del SRI, l
 
 ## Cada dia
 Abre el acceso directo **Oficina AD-NEGOCIOS**: actualiza la oficina, la enciende y abre el enlace. Deja abierta la ventana negra mientras trabajas.
-Si el navegador pregunta por acceso a la red local, pulsa **Permitir**.
 
 ## Seguridad
 - La pagina solo habla con la oficina de tu propia PC (127.0.0.1); no envia nada a internet.
