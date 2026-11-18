@@ -6,7 +6,7 @@ chcp 65001 >nul
 setlocal
 title Instalar Oficina Virtual AD-NEGOCIOS
 set "REPO=https://github.com/adnegocios/oficina-ad-negocios.git"
-set "RAMA=oficina-diseno"
+set "RAMA=main"
 set "DESTINO=%USERPROFILE%\oficina-ad-negocios"
 
 echo ================================================
@@ -47,7 +47,7 @@ node "%DESTINO%\oficina\configurar.js"
 if errorlevel 1 goto error
 
 echo [5/7] Creando el acceso directo "Oficina AD-NEGOCIOS" en el escritorio...
-powershell -NoProfile -Command "$e=[Environment]::GetFolderPath('Desktop'); $s=(New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path $e 'Oficina AD-NEGOCIOS.lnk')); $s.TargetPath='%DESTINO%\oficina\encender-oficina.cmd'; $s.WorkingDirectory='%DESTINO%'; $s.Save()"
+call "%DESTINO%\oficina\acceso-directo.cmd"
 
 echo [6/7] Haciendo que la oficina funcione desde que se abre el enlace (inicio con Windows)...
 call "%DESTINO%\oficina\registrar-inicio.cmd"
