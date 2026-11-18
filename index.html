@@ -845,13 +845,18 @@ function modoSinConexion() {
   pintarTablero();
   const aviso = document.getElementById('aviso');
   aviso.style.display = 'block';
-  aviso.innerHTML = '<b>No encuentro la oficina encendida en esta PC.</b><br>' +
-    '<b>Ya la instalaste:</b> abre el acceso directo "Oficina AD-NEGOCIOS" del escritorio, deja esa ventana abierta y pulsa Reintentar.' +
-    ' Si el navegador pregunta por acceso a la red local, pulsa Permitir.<br>' +
+  aviso.innerHTML = '<b>La oficina de esta PC esta apagada.</b><br>' +
+    '<a id="encender-oficina" href="oficina-ad://encender" style="display:block;margin:8px 0;padding:8px 10px;border:3px solid var(--tinta2);background:var(--verde);color:var(--tinta);font-weight:bold;text-decoration:none">&#9654; Encender oficina</a>' +
+    '<small>Si el navegador pregunta "Abrir Oficina AD-NEGOCIOS", pulsa Abrir; y si pregunta por acceso a la red local, Permitir. ' +
+    'La pagina se conecta sola en cuanto la oficina este lista.</small><br>' +
     '<b>Primera vez en esta PC:</b> <a href="https://adnegocios.github.io/OFICINA-AD-/instalar-oficina.cmd" download style="color:var(--oro)">descarga el instalador</a>' +
     ' y abrelo con doble clic (si Windows avisa, "Mas informacion" y "Ejecutar de todas formas").' +
     '<button type="button" id="reintentar-conexion">Reintentar</button>';
   document.getElementById('reintentar-conexion').addEventListener('click', () => location.reload());
+  // Reconexion automatica: en cuanto la oficina de esta PC responde, la pagina se recarga conectada.
+  if (!LOCAL) setInterval(async () => {
+    try { const r = await fetch(API + '/api/agentes', { cache: 'no-store' }); if (r.ok) location.reload(); } catch (_) { /* sigue apagada */ }
+  }, 4000);
   dibujar();
 }
 
