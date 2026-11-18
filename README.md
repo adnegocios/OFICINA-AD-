@@ -16,4 +16,4 @@ Si el navegador pregunta por acceso a la red local, pulsa **Permitir**.
 
 ## Seguridad
 - La pagina solo habla con la oficina de tu propia PC (127.0.0.1); no envia nada a internet.
-- Las credenciales del SRI **no** se llenan desde este enlace: solo desde http://127.0.0.1:4173 en tu PC, o escribiendolas en la ventana del SRI.
+- El formulario de credenciales envia los datos solo a la oficina de tu PC (127.0.0.1); la pagina tiene una politica que le impide enviar datos a cualquier otro sitio.

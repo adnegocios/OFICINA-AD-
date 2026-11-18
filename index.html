@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Seguridad: la pagina solo puede enviar datos a la oficina de esta PC (127.0.0.1:4173), nunca a otro sitio. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' http://127.0.0.1:4173 http://localhost:4173; form-action 'none'; base-uri 'none'; object-src 'none'">
 <title>Oficina virtual Ad-negocios</title>
 <style>
   /* Paleta del panel: los mismos tonos de la oficina */
@@ -864,8 +866,6 @@ async function iniciar() {
   try { AG = await (await fetch(API + '/api/agentes')).json(); }
   catch (_) { return modoSinConexion(); }
   if (!Array.isArray(AG)) return modoSinConexion();
-  // Desde GitHub Pages no se llenan credenciales (solo en http://127.0.0.1:4173).
-  if (!LOCAL) { const cred = document.getElementById('credenciales'); if (cred) cred.style.display = 'none'; }
   const es = new EventSource(API + '/api/eventos');
   es.onmessage = (ev) => {
     const m = JSON.parse(ev.data);
